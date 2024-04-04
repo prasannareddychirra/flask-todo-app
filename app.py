@@ -12,20 +12,20 @@ db= SQLAlchemy(app)
 
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title= db.Column(db.String(100))
-    complete=db.Column(db.Boolean)
+    title = db.Column(db.String(100))
+    complete = db.Column(db.Boolean)
 
 
 @app.route('/')
 def index():
-    Todo_List= Todo.query.all()
+    Todo_List = Todo.query.all()
     print(Todo_List)
     return render_template('base.html',Todo_List=Todo_List)
 
 @app.route("/add",methods=["POST"])
 def add():
-    title=request.form.get("title")
-    new_todo= Todo(title=title, complete=False)
+    title = request.form.get("title")
+    new_todo = Todo(title=title, complete=False)
     db.session.add(new_todo)
     db.session.commit()
     return redirect(url_for("index"))
@@ -44,11 +44,11 @@ def delete(todo_id):
     db.session.commit()
     return redirect(url_for("index"))
 
-if __name__=="__main__":
+if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-        new_todo= Todo(title="todo 1", complete=False)
+        new_todo = Todo(title="todo 1", complete=False)
         db.session.add(new_todo)
         db.session.commit()
-    app.run(debug=True)
-    
+    # Run the Flask app with the specified host and port
+    app.run(host="0.0.0.0", port=8000, debug=True)
